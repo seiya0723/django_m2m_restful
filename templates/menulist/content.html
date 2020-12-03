@@ -1,0 +1,30 @@
+<table>
+    <thead>
+        <tr>
+            <td>カテゴリ</td>
+            <td>メニュー</td>
+            <td>朝</td>
+            <td>昼</td>
+            <td>夜</td>
+            <td>持ち帰り</td>
+            <td>価格</td>
+            <td>アレルギー</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for content in data %}
+        <tr>
+            <td>{{ content.category }}</td>
+            <td>{{ content.name }}</td>
+            <td>{{ content.breakfast }}</td>
+            <td>{{ content.lunch }}</td>
+            <td>{{ content.dinner }}</td>
+            <td>{{ content.takeout }}</td>
+            <td>{{ content.price }}円</td>
+            <td>{% for allergy in content.allergy.all %}{{ allergy }} {% endfor %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+

@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>ハンバーガー屋</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="{% static 'menulist/css/style.css' %}">
+    <script src="{% static 'menulist/js/ajax.js' %}"></script>
+    <script src="{% static 'menulist/js/send.js' %}"></script>
+</head>
+<body>
+
+    <h1 class="text-center text-white" style="background:orange;">メニューリスト</h1>
+
+    <main class="container">
+
+
+        <form method="POST" class="py-2">
+            {% csrf_token %}
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="py-1">
+                        <select name="category">
+                            {% for cate in cates %}
+                            <option value="{{ cate.id }}">{{ cate.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="py-1">
+                        <input type="text" name="name" placeholder="メニュー名" required>
+                        <input type="number" name="price" placeholder="価格" required>
+                    </div>
+
+                    <div class="py-1">
+                        <div>含有アレルギー</div>
+                        {% for alle in alles %}
+
+                        <!--TODO:ここを配列で処理できるようにname属性を改修する-->
+                        <input id="{{ alle.id }}" class="input_chk" type="checkbox" name="allergy[]" value="{{ alle.id }}">
+                        <label class="surround_label" for="{{ alle.id }}">{{ alle.name }}</label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+
+                <div class="col-sm-6">
+                    <div class="row align-items-center">
+                        <div class="col-6">朝メニュー</div><div class="col-6 text-right"><input id="breakfast" class="input_chk" type="checkbox" name="breakfast" checked><label class="chk_label" for="breakfast"></label></div>
+                        <div class="col-6">昼メニュー</div><div class="col-6 text-right"><input id="lunch"     class="input_chk" type="checkbox" name="lunch"     checked><label class="chk_label" for="lunch"    ></label></div>
+                        <div class="col-6">夜メニュー</div><div class="col-6 text-right"><input id="dinner"    class="input_chk" type="checkbox" name="dinner"    checked><label class="chk_label" for="dinner"   ></label></div>
+                        <div class="col-6">持ち帰り</div><div class="col-6   text-right"><input id="takeout"   class="input_chk" type="checkbox" name="takeout"   checked><label class="chk_label" for="takeout"  ></label></div>
+                    </div>
+                </div>
+
+            </div>
+            <input id="submit" class="form-control" type="button" value="送信">
+        </form>
+
+
+
+        <div id="content">
+            {% include "menulist/content.html" %}
+        </div>
+
+    </main>
+
+</body>
+</html>
+
